@@ -1,0 +1,4 @@
+[submodule "external/sdk"]
+	path = external/sdk
+	url = https://github.com/z80020100/luckfox-pico.git
+	shallow = true
