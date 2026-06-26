@@ -14,6 +14,13 @@ repos:
         entry: shellcheck
         language: system
         types: [shell]
+      - id: dprint-dockerfile
+        name: dprint Dockerfile
+        entry: dprint fmt
+        language: node
+        additional_dependencies:
+          - dprint@0.54.0
+        files: '(^|/)Dockerfile$'
 
   - repo: https://github.com/google/yamlfmt
     rev: v0.21.0
@@ -25,3 +32,8 @@ repos:
     rev: v1.38.0
     hooks:
       - id: yamllint
+
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.14.0
+    hooks:
+      - id: hadolint-docker
