@@ -1,0 +1,7 @@
+---
+formatter:
+  type: basic
+  # Emit a leading --- so output satisfies yamllint's document-start rule.
+  include_document_start: true
+  # Preserve intentional blank lines between blocks.
+  retain_line_breaks: true

@@ -1,0 +1,12 @@
+---
+# Lint rules coordinated with yamlfmt so the two do not fight.
+extends: default
+
+rules:
+  # yamlfmt does not wrap lines so treat length as advisory only.
+  line-length:
+    max: 120
+    level: warning
+  # Match yamlfmt's include_document_start so both expect a leading ---.
+  document-start:
+    present: true
