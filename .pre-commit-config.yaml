@@ -21,6 +21,23 @@ repos:
         additional_dependencies:
           - dprint@0.54.0
         files: '(^|/)Dockerfile$'
+      - id: cppcheck
+        name: cppcheck
+        entry: cppcheck
+        args:
+          - --error-exitcode=1
+          - --std=c++11
+          - --enable=warning,performance,portability
+          - --inline-suppr
+          - --quiet
+        language: system
+        files: ^docker/arm64/builder/src/.*\.cpp$
+
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v22.1.5
+    hooks:
+      - id: clang-format
+        files: ^docker/arm64/builder/src/.*\.(cpp|h|hpp)$
 
   - repo: https://github.com/google/yamlfmt
     rev: v0.21.0
