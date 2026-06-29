@@ -34,11 +34,13 @@ bash "$SCRIPT_DIR/build-docker-image.sh" "$TARGET"
 ensure_volume "$VOLUME" "crosstool-NG work volume (caches build state)"
 
 mkdir -p "$OUTPUT_DIR"
+BUILD_HOSTNAME="$(build_hostname)"
 log "Building native arm64 toolchain for: $TUPLE"
 warn "First run is slow: crosstool-NG downloads and compiles gcc and uClibc."
 build_start=$SECONDS
 
 docker run --rm \
+    --hostname "$BUILD_HOSTNAME" \
     -e TUPLE="$TUPLE" \
     -v "$REPO_ROOT:/repo:ro" \
     -v "$VOLUME:/workspace" \

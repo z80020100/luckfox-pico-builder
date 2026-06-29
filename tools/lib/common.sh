@@ -31,6 +31,10 @@ ensure_volume() {
     }
 }
 
+build_hostname() {
+    hostname
+}
+
 # Log wall-clock time since a $SECONDS snapshot as "Build time: Xm Ys".
 log_build_time() {
     local elapsed=$((SECONDS - $1))
