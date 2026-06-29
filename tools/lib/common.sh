@@ -21,3 +21,18 @@ require_docker() {
     command -v docker >/dev/null 2>&1 || die "docker not found. Install Docker."
     docker info >/dev/null 2>&1 || die "Docker daemon not responding. Start it and retry."
 }
+
+# Ensure a Docker volume exists, creating it (with a log line) on first use.
+ensure_volume() {
+    local name="$1" desc="${2:-build volume}"
+    docker volume inspect "$name" >/dev/null 2>&1 || {
+        log "Creating $desc: $name"
+        docker volume create "$name" >/dev/null
+    }
+}
+
+# Log wall-clock time since a $SECONDS snapshot as "Build time: Xm Ys".
+log_build_time() {
+    local elapsed=$((SECONDS - $1))
+    log "Build time: $((elapsed / 60))m $((elapsed % 60))s"
+}
