@@ -1,0 +1,4 @@
+# Follow sourced files (tools/lib/*.sh) so shared vars and functions aren't flagged unused.
+external-sources=true
+# Resolve `source=` directive paths from each script's own directory, not the caller's CWD.
+source-path=SCRIPTDIR
