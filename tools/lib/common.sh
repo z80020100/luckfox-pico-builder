@@ -31,6 +31,18 @@ ensure_volume() {
     }
 }
 
+# List the Pro Max BoardConfig files under an SDK board-config dir.
+# Usage: list_boards <sdk_dir> <board_cfg_subdir>
+list_boards() {
+    local sdk_dir="$1" subdir="$2" cfg found=0
+    for cfg in "$sdk_dir/$subdir"/BoardConfig-*RV1106_Luckfox_Pico_Pro_Max*.mk; do
+        [ -e "$cfg" ] || continue
+        echo "  ${cfg##*/}"
+        found=1
+    done
+    [ "$found" = 1 ] || echo "  (SDK submodule not checked out yet)"
+}
+
 build_hostname() {
     hostname
 }
