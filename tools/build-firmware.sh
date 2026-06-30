@@ -14,14 +14,6 @@ LOG_PREFIX="build-firmware"
 # shellcheck source=lib/common.sh
 source "$SCRIPT_DIR/lib/common.sh"
 
-host_arch() {
-    case "$(uname -m)" in
-    x86_64 | amd64) echo amd64 ;;
-    aarch64 | arm64) echo arm64 ;;
-    *) die "unsupported host arch: $(uname -m) (expected x86_64/amd64 or aarch64/arm64)" ;;
-    esac
-}
-
 usage() {
     cat <<EOF
 Usage: tools/build-firmware.sh [--arch auto|amd64|arm64] [BOARD_CONFIG] [--reset-sdk]

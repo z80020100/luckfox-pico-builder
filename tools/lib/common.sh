@@ -43,8 +43,24 @@ list_boards() {
     [ "$found" = 1 ] || echo "  (SDK submodule not checked out yet)"
 }
 
+# Derive the dist board tag from a BoardConfig file name:
+# BoardConfig-SPI_NAND-...-IPC.mk -> SPI_NAND-...-IPC
+board_tag() {
+    local t="${1#BoardConfig-}"
+    echo "${t%.mk}"
+}
+
 build_hostname() {
     hostname
+}
+
+# Map the host machine (uname -m) to the build/flash arch tag (amd64 | arm64).
+host_arch() {
+    case "$(uname -m)" in
+    x86_64 | amd64) echo amd64 ;;
+    aarch64 | arm64) echo arm64 ;;
+    *) die "unsupported host arch: $(uname -m) (expected x86_64/amd64 or aarch64/arm64)" ;;
+    esac
 }
 
 # Log wall-clock time since a $SECONDS snapshot as "Build time: Xm Ys".

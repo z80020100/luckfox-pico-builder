@@ -2,3 +2,6 @@
 	path = external/sdk
 	url = https://github.com/z80020100/luckfox-pico.git
 	shallow = true
+[submodule "external/rkdeveloptool"]
+	path = external/rkdeveloptool
+	url = git@github.com:z80020100/rkdeveloptool.git

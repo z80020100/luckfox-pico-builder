@@ -72,9 +72,9 @@ run_firmware_build() {
     done
     board_config="${board_config:-$DEFAULT_BOARD_CONFIG}"
 
-    local board_tag="${board_config#BoardConfig-}"
-    board_tag="${board_tag%.mk}"
-    local output_dir="$REPO_ROOT/dist/firmware/host-$ARCH/$board_tag"
+    local tag
+    tag="$(board_tag "$board_config")"
+    local output_dir="$REPO_ROOT/dist/firmware/host-$ARCH/$tag"
 
     require_docker
     [ -e "$sdk_dir/build.sh" ] || die "SDK submodule missing. Run: git submodule update --init external/sdk"
