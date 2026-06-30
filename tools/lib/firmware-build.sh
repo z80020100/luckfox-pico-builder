@@ -101,6 +101,8 @@ $(list_boards "$sdk_dir" "$BOARD_CFG_SUBDIR")"
         -e BOARD_CONFIG="$board_config" \
         -e BOARD_CFG_SUBDIR="$BOARD_CFG_SUBDIR" \
         -e RESET_SDK="$reset_sdk" \
+        -e HOST_UID="$(id -u)" \
+        -e HOST_GID="$(id -g)" \
         -v "$REPO_ROOT:/repo:ro" \
         -v "$VOLUME:/sdk" \
         -v "$output_dir:/out" \

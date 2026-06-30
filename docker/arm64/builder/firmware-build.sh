@@ -115,4 +115,8 @@ if [ ! -d output/image ] || [ -z "$(ls -A output/image)" ]; then
 fi
 find /out -mindepth 1 -maxdepth 1 -exec rm -rf {} +
 cp -a output/image/. /out/
+# Native Linux docker runs the container as root, so the copied images land
+# root-owned and the host-side build-info step can't write BUILD-INFO.txt beside
+# them. Hand the bind-mounted /out back to the invoking user.
+chown -R "${HOST_UID:?}:${HOST_GID:?}" /out
 echo "[arm64] images copied to /out"
