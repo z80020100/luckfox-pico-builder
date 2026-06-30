@@ -1,0 +1,56 @@
+---
+exclude: '^(external|vendor)/'
+repos:
+  - repo: local
+    hooks:
+      - id: shfmt
+        name: shfmt
+        entry: shfmt
+        args: [-w, -i, "4"]
+        language: system
+        types: [shell]
+      - id: shellcheck
+        name: shellcheck
+        entry: shellcheck
+        language: system
+        types: [shell]
+      - id: dprint-dockerfile
+        name: dprint Dockerfile
+        entry: dprint fmt
+        language: node
+        additional_dependencies:
+          - dprint@0.54.0
+        files: '(^|/)Dockerfile$'
+      - id: cppcheck
+        name: cppcheck
+        entry: cppcheck
+        args:
+          - --error-exitcode=1
+          - --std=c++11
+          - --enable=warning,performance,portability
+          - --inline-suppr
+          - --quiet
+        language: system
+        files: ^docker/arm64/builder/src/.*\.cpp$
+
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v22.1.5
+    hooks:
+      - id: clang-format
+        files: ^docker/arm64/builder/src/.*\.(cpp|h|hpp)$
+
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.21.0
+    hooks:
+      - id: yamlfmt
+        args: [-conf, .yamlfmt.yaml]
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.14.0
+    hooks:
+      - id: hadolint-docker

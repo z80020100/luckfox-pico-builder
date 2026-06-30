@@ -1,0 +1,18 @@
+diff --git a/sysdrv/source/uboot/u-boot/make.sh b/sysdrv/source/uboot/u-boot/make.sh
+index 605155912..e4f410a34 100755
+--- a/sysdrv/source/uboot/u-boot/make.sh
++++ b/sysdrv/source/uboot/u-boot/make.sh
+@@ -766,6 +766,13 @@ function clean_files()
+
+ function pack_images()
+ {
++	# arm64-native: overlay host tools built with u-boot (native arch) over the
++	# rkbin x86-64 prebuilts, so packaging runs native (no Rosetta; works on
++	# pure arm64 Linux). Tools not built (absent) stay as-is for later phases.
++	for _t in mkimage loaderimage trust_merger; do
++		[ -f tools/${_t} ] && cp -f tools/${_t} ${RKBIN}/tools/${_t}
++	done
++
+ 	if [ "${ARG_RAW_COMPILE}" != "y" ]; then
+ 		if [ "${PLAT_TYPE}" == "FIT" ]; then
+ 			pack_fit_image ${ARG_LIST_FIT}

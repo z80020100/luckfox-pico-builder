@@ -1,0 +1,6 @@
+---
+# Ignore rules that clash with intentional choices in this repo's Dockerfiles.
+ignored:
+  - DL3029 # FROM --platform is intentional for this cross-platform build env.
+  - DL3008 # apt version pinning is impractical on a rolling ubuntu:22.04 base.
+  - DL3003 # cd inside the atomic build-and-clean RUN is intentional.

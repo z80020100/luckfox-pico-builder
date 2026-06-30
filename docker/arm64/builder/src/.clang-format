@@ -1,0 +1,50 @@
+---
+# Based on the Linux kernel coding style. The packer tools are C compiled as C++
+# so the kernel C conventions apply: hard tabs at 8 columns, function brace on a
+# new line with struct and control brace attached, pointers bound to the name
+# (char *p) and comments left as written. Hand-formatted lookup tables stay
+# wrapped in // clang-format off / on.
+#
+# Two deliberate deviations from the kernel tree's own .clang-format:
+#   - ColumnLimit 100, not 80 (matches modern checkpatch, which warns at 100).
+#   - AlignAfterOpenBracket DontAlign, not the kernel default Align, so wrapped
+#     args use a pure-tab continuation indent with no tab+space mixing.
+Language: Cpp
+BasedOnStyle: LLVM
+IndentWidth: 8
+TabWidth: 8
+UseTab: Always
+ContinuationIndentWidth: 8
+ColumnLimit: 100
+PointerAlignment: Right
+ReflowComments: false
+Cpp11BracedListStyle: false
+AlignAfterOpenBracket: DontAlign
+AlignConsecutiveAssignments: None
+AlignConsecutiveDeclarations: None
+AlignEscapedNewlines: Left
+AlignTrailingComments:
+  Kind: Never
+AllowShortFunctionsOnASingleLine: None
+AllowShortBlocksOnASingleLine: Never
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+IndentCaseLabels: false
+SpaceBeforeParens: ControlStatements
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: false
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
