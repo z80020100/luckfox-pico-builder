@@ -27,7 +27,7 @@ usage() {
 Usage: tools/build-firmware.sh [--arch auto|amd64|arm64] [BOARD_CONFIG] [--reset-sdk]
 
 Builds the firmware in a Docker build environment chosen by host architecture and
-copies the images to dist/firmware/<board>/ (with a BUILD-INFO.txt provenance file).
+copies the images to dist/firmware/host-<arch>/<board>/ (with a BUILD-INFO.txt provenance file).
 
 Options:
   --arch <a>     auto (default) picks the host arch so the build runs natively.

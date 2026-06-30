@@ -2,11 +2,10 @@
 # Shared helper sourced by the build-firmware-* backends.
 # Relies on common.sh being sourced first (uses its build_hostname).
 #
-# Writes BUILD-INFO.txt into the firmware output dir so the single
-# dist/firmware/<board>/ output is self-describing: which build host arch produced
-# it, which toolchain, from which SDK commit and when. Build-host differences live
-# here as metadata -- the output path stays arch-agnostic (the target is always
-# RV1106 ARMv7).
+# Writes BUILD-INFO.txt into the firmware output dir to record full build
+# provenance: which build host arch produced it, which toolchain, from which SDK
+# commit and when. The output path separates builds by host (host-<arch>/) so both
+# can coexist; the target firmware is always RV1106 ARMv7 regardless of build host.
 #
 # Usage: write_build_info <out_dir> <build_arch> <toolchain_desc> <board_config>
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Shared driver for the per-arch firmware-build backends (build-firmware-amd64.sh
 # and build-firmware-arm64.sh). Both build the same RV1106 ARMv7 firmware and copy
-# the images to dist/firmware/<board>/; they differ only by build environment
+# the images to dist/firmware/host-<arch>/<board>/; they differ only by build environment
 # (Docker image, toolchain, SDK volume). The backend sets a few config vars,
 # optionally overrides preflight(), then calls: run_firmware_build "$@".
 #
@@ -74,7 +74,7 @@ run_firmware_build() {
 
     local board_tag="${board_config#BoardConfig-}"
     board_tag="${board_tag%.mk}"
-    local output_dir="$REPO_ROOT/dist/firmware/$board_tag"
+    local output_dir="$REPO_ROOT/dist/firmware/host-$ARCH/$board_tag"
 
     require_docker
     [ -e "$sdk_dir/build.sh" ] || die "SDK submodule missing. Run: git submodule update --init external/sdk"

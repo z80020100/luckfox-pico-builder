@@ -13,7 +13,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 ARCH=amd64
 VOLUME="${LUCKFOX_SDK_AMD64_VOLUME:-luckfox-pico-sdk-amd64}"
 BUILD_DESC="Build the Luckfox Pico Pro Max firmware inside Docker and copy the images to
-dist/firmware/<board>/."
+dist/firmware/host-amd64/<board>/."
 RESET_SDK_HELP="Wipe and re-clone the SDK into the build volume. Use after a
                  submodule SHA bump or to force a clean source tree."
 TOOLCHAIN_DESC="official x86-64 prebuilt (arm-rockchip830-linux-uclibcgnueabihf)"

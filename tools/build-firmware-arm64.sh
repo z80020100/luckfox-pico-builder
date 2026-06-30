@@ -15,7 +15,7 @@ VOLUME="${LUCKFOX_SDK_ARM64_VOLUME:-luckfox-pico-sdk-arm64}"
 TUPLE="arm-rockchip830-linux-uclibcgnueabihf"
 TOOLCHAIN_TARBALL="$REPO_ROOT/dist/toolchain/arm64/$TUPLE.tar.gz"
 BUILD_DESC="Build the Luckfox Pico Pro Max firmware natively on arm64 and copy the images to
-dist/firmware/<board>/."
+dist/firmware/host-arm64/<board>/."
 RESET_SDK_HELP="Wipe and re-prepare the SDK in the build volume (re-injects the
                  toolchain and re-swaps the host tools)."
 TOOLCHAIN_DESC="rebuilt aarch64 crosstool-NG 1.24.0 ($TUPLE)"
