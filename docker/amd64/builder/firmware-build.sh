@@ -30,6 +30,15 @@ fi
 cd /sdk
 ln -rfs "$BOARD_CFG_SUBDIR/$BOARD_CONFIG" .BoardConfig.mk
 echo "[amd64] board: $(readlink -f .BoardConfig.mk)"
+
+# Stub out the SDK's buildroot mirror probe (sysdrv/Makefile runs it right after
+# it regenerates buildroot's .config). The probe re-picks a mirror via a 1.5s curl
+# connect test and on a total miss blanks the defconfig's BR2_PRIMARY_SITE -- which
+# this build hit (observed BR2_PRIMARY_SITE="" in the volume; its CN mirror is also
+# unreachable from here). A blank primary sends every Buildroot package to its slow
+# upstream site first (e.g. zip via info-zip's FTP). The stub keeps the defconfig's
+# fast mirror (sources.buildroot.net). Idempotent.
+printf '#!/bin/sh\nexit 0\n' >sysdrv/tools/board/mirror_select/buildroot_mirror_select.sh
 ./build.sh
 
 if [ ! -d output/image ] || [ -z "$(ls -A output/image)" ]; then
