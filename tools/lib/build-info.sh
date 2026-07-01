@@ -18,7 +18,6 @@ write_build_info() {
     cat >"$out/BUILD-INFO.txt" <<EOF
 build_host:    $build_host
 build_arch:    $build_arch
-build_mode:    ${LUCKFOX_FORCED_ARCH:-native}
 host_machine:  $(uname -m)
 host_os:       $(uname -s) $(uname -r)
 toolchain:     $toolchain
