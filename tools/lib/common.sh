@@ -31,6 +31,16 @@ ensure_volume() {
     }
 }
 
+# Ensure the rebuilt aarch64 cross-toolchain tarball exists, building it on first
+# use (one-time, ~15 min). Usage: ensure_arm64_toolchain <tarball> <tools_dir>
+ensure_arm64_toolchain() {
+    local tarball="$1" tools_dir="$2"
+    [ -f "$tarball" ] && return 0
+    log "arm64 toolchain not found; building it first (one-time, ~15 min) ..."
+    bash "$tools_dir/build-toolchain-arm64.sh"
+    [ -f "$tarball" ] || die "toolchain build did not produce $tarball"
+}
+
 # List the Pro Max BoardConfig files under an SDK board-config dir.
 # Usage: list_boards <sdk_dir> <board_cfg_subdir>
 list_boards() {
