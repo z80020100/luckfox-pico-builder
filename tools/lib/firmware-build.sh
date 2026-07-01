@@ -72,6 +72,16 @@ run_firmware_build() {
     done
     board_config="${board_config:-$DEFAULT_BOARD_CONFIG}"
 
+    # Refuse emulated builds (target ARCH != host): the SDK toolchain would run
+    # under QEMU/Rosetta and deadlock make's jobserver. Guarded here so both
+    # backends and direct invocation are covered.
+    local host
+    host="$(host_arch)"
+    if [ "$ARCH" != "$host" ]; then
+        die "Refusing to build $ARCH firmware on an $host host: emulated cross-arch builds are unsupported.
+Build on a native $host host: tools/build-firmware-$host.sh (or tools/build-firmware.sh, which auto-selects it)."
+    fi
+
     local tag
     tag="$(board_tag "$board_config")"
     local output_dir="$REPO_ROOT/dist/firmware/host-$ARCH/$tag"

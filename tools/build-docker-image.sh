@@ -9,6 +9,9 @@
 # The build-firmware / build-toolchain orchestrators auto-invoke this when their
 # image is missing, so a normal build never needs it directly. Run it yourself to
 # rebuild after editing a Dockerfile:  tools/build-docker-image.sh builder-arm64
+#
+# Only host-arch images are built (a foreign-arch image needs emulation): 'all'
+# skips foreign-arch targets and naming one explicitly is refused.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -28,7 +31,7 @@ Targets:
   builder-amd64             amd64 build environment (official Luckfox image)
   builder-arm64             native arm64 build environment (no Rosetta)
   toolchain-builder-arm64   crosstool-NG image for the arm64 cross-toolchain
-  all                       all of the above
+  all                       every target buildable natively on this host
 
 Options:
   --force        rebuild even if the image already exists
@@ -59,15 +62,24 @@ done
 }
 
 require_docker
+HOST_ARCH="$(host_arch)"
 
 build_one() {
-    local target="$1" platform dir tag
+    local target="$1" allow_skip="${2:-0}" platform dir tag
     case "$target" in
     builder-amd64) platform="linux/amd64" dir="docker/amd64/builder" ;;
     builder-arm64) platform="linux/arm64" dir="docker/arm64/builder" ;;
     toolchain-builder-arm64) platform="linux/arm64" dir="docker/arm64/toolchain" ;;
     *) die "unknown target: $target (try --help)" ;;
     esac
+    # Foreign-arch images need emulation: skip under 'all', else refuse.
+    if [ "$platform" != "linux/$HOST_ARCH" ]; then
+        if [ "$allow_skip" = 1 ]; then
+            log "skipping $target: $platform needs emulation on this $HOST_ARCH host"
+            return 0
+        fi
+        die "refusing to build $target: $platform needs emulation on this $HOST_ARCH host, and emulated builds are unsupported"
+    fi
     tag="luckfox-pico-$target"
     if [ "$FORCE" = 0 ] && docker image inspect "$tag" >/dev/null 2>&1; then
         log "image present: $tag (use --force to rebuild)"
@@ -80,7 +92,7 @@ build_one() {
 }
 
 if [ "$REQUESTED" = all ]; then
-    for t in $ALL_TARGETS; do build_one "$t"; done
+    for t in $ALL_TARGETS; do build_one "$t" 1; done
 else
     build_one "$REQUESTED"
 fi
