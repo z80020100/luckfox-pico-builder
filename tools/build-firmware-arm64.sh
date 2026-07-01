@@ -30,10 +30,7 @@ source "$SCRIPT_DIR/lib/firmware-build.sh"
 
 # arm64 builds natively, so it needs the rebuilt cross-toolchain; build it on first run.
 preflight() {
-    [ -f "$TOOLCHAIN_TARBALL" ] && return 0
-    log "arm64 toolchain not found; building it first (one-time, ~15 min) ..."
-    bash "$SCRIPT_DIR/build-toolchain-arm64.sh"
-    [ -f "$TOOLCHAIN_TARBALL" ] || die "toolchain build did not produce $TOOLCHAIN_TARBALL"
+    ensure_arm64_toolchain "$TOOLCHAIN_TARBALL" "$SCRIPT_DIR"
 }
 
 run_firmware_build "$@"

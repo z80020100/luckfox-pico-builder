@@ -5,3 +5,7 @@
 [submodule "external/rkdeveloptool"]
 	path = external/rkdeveloptool
 	url = git@github.com:z80020100/rkdeveloptool.git
+[submodule "external/rkmpi"]
+	path = external/rkmpi
+	url = https://github.com/z80020100/luckfox_pico_rkmpi_example.git
+	shallow = true
